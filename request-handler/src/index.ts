@@ -20,11 +20,12 @@ const s3 = new S3({
   s3ForcePathStyle: true,
 });
 
-app.get("/*", async (req, res) => {
+app.get("/", async (req, res) => {
   //id.vercelorsomething.com //to extract id
-  const host = req.hostname;
+  // const host = req.hostname;
 
-  const id = host.split(".")[0];
+  // const id = host.split(".")[0];
+  const id = req.query.id;
   let filePath = req.path;
 
   if (filePath === "/" || filePath === "") {
@@ -42,8 +43,8 @@ app.get("/*", async (req, res) => {
     const type = filePath.endsWith("html")
       ? "text/html"
       : filePath.endsWith("css")
-      ? "text/css"
-      : "application/javascript";
+        ? "text/css"
+        : "application/javascript";
     res.set("Content-type", type);
     res.send(contents.Body);
     console.log("sent");
